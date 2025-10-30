@@ -7,14 +7,14 @@ o processo de análise do problema a ser resolvido.
 Inicialmente o checklist dispõe mensagens de texto que podem ser copiadas
 para envio ao cliente, solicitando evidências para início do atendimento.
 
-//<!DOCTYPE html>
-//<html lang="pt-BR">
-//<head>
-  //<meta charset="UTF-8">
-  //<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //<title>Checklist de Atendimento - Lentidão Call Center</title>
-  //<style>
-   // body {
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de Atendimento - Lentidão Call Center</title>
+<style>
+ body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       display: flex;
@@ -123,12 +123,12 @@ para envio ao cliente, solicitando evidências para início do atendimento.
     a:hover {
       color: #005ec4;
     }
-  //</style>
-  //</head>
-  //<body>
+</style>
+</head>
+<body>
 
-  //<div class="checklist-container">
-    //<h2>Checklist - Lentidão no Call Center</h2>
+<div class="checklist-container">
+<h2>Checklist - Lentidão no Call Center</h2>
 
     <!-- Passos iniciais -->
     <div class="item">Essa lentidão ocorre em algum dispositivo ou conteúdo específico?</div>
