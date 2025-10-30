@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist de Atendimento - Lentidão Call Center</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 0;
+    }
+
+    .checklist-container {
+      background: white;
+      width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0078ff;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      background: #f2f2f2;
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.3s;
+      position: relative;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .item:hover {
+      background: #e0e7ff;
+    }
+
+    .item.completed {
+      background: #d1ffd1;
+      text-decoration: line-through;
+      color: #333;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      font-size: 12px;
+      padding: 14px 20px;
+      border-radius: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip.show {
+      opacity: 1;
+    }
+
+    .btn-opcao, .btn-reset {
+      background: #0078ff;
+      color: white;
+      border: none;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-opcao:hover, .btn-reset:hover {
+      background: #005ec4;
+    }
+
+    .btn-reset {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      background: #ff5959;
+    }
+
+    a {
+      color: #0078ff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    a:hover {
+      color: #005ec4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checklist-container">
+    <h2>Checklist - Lentidão no Call Center</h2>
+
+    <!-- Passos iniciais -->
+    <div class="item">Essa lentidão ocorre em algum dispositivo ou conteúdo específico?</div>
+    <div class="item" id="condicional">Poderia me enviar um vídeo ou print de tela que ajude a identificar o que está ocorrendo e assim verificar a melhor forma de ajudá-lo (a)?</div>
+
+    <!-- Pergunta condicional TV Box -->
+    <div class="condicional-opcoes" id="opcoes" style="display:none; text-align:center;">
+      <p>A lentidão ocorre em TV Box?</p>
+      <button class="btn-opcao" id="simBtn">Sim</button>
+      <button class="btn-opcao" id="naoBtn">Não</button>
+    </div>
+
+    <!-- Caminho "Não TV Box" -->
+    <div class="item comum" style="display:none;">
+       Ok, estou encaminhando um link para que você realize um teste de velocidade e assim teremos uma ideia de como está a velocidade da sua conexão:  
+       https://www.speedtest.net/  
+       Peço que realize o teste com celular conectado à rede 5G e próximo ao roteador. Feche abas desnecessárias durante o teste.
+    </div>
+
+    </div>
+    <div class="item comum" style="display:none;">Comparar resultado com a velocidade contratada.</div>
+    <div class="item comum" style="display:none;">Caso tenha perca de pacotes no teste, realizar teste PING com Ip de saída do cliente.</div>
+    <div class="item comum" style="display:none;">Caso tenha perca de pacotes, pedir ao cliente para reiniciar o dispositivo, e o roteador.Após o reinício, testar novamente.</div>
+    <div class="item comum" style="display:none;">Caso persista, comunicar ao líder do setor e verificar a melhor forma de solucionar o problema.</div>
+    <div class="item comum" style="display:none;">Para comunicar o líder, criar um report Com Id, nome do cliente e protocolo do Opa.</div>
+
+    <!-- Caminho TV Box -->
+    <div class="item tvbox" style="display:none;">Verificar se a TV Box está conectada via cabo de rede; senão, indicar ao mesmo.</div>
+    <div class="item tvbox" style="display:none;">Recomendar ao cliente que verifique se aplicativo utilizado está atualizado.</div>
+    <div class="item tvbox" style="display:none;">Testar outro aplicativo de streaming para comparar.</div>
+    <div class="item tvbox" style="display:none;">Recomendar ao clieente que reinicie a TV Box e o roteador.</div>
+    <div class="item tvbox" style="display:none;">Se persistir, Informar o cliente que infelizmente não pode ser assegurada qualidade de conexão relacionado ao uso de TV BOX / IPTV Por se tratar de dispositivos não homologados pela Anatel. 🧩</div>
+
+    <!-- Botão de reinício -->
+    <button class="btn-reset" id="resetBtn" style="display:none;">🔄 Reiniciar Checklist</button>
+  </div>
+
+  <script>
+    const itens = document.querySelectorAll(".item");
+    const opcoes = document.getElementById("opcoes");
+    const simBtn = document.getElementById("simBtn");
+    const naoBtn = document.getElementById("naoBtn");
+    const comuns = document.querySelectorAll(".comum");
+    const tvbox = document.querySelectorAll(".tvbox");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Copiar texto + marcar concluído
+    itens.forEach(item => {
+      const tooltip = document.createElement("span");
+      tooltip.classList.add("tooltip");
+      tooltip.textContent = "Copiado!";
+      item.appendChild(tooltip);
+
+      item.addEventListener("click", () => {
+        navigator.clipboard.writeText(item.textContent.trim());
+        item.classList.toggle("completed");
+        tooltip.classList.add("show");
+        setTimeout(() => tooltip.classList.remove("show"), 1000);
+
+        // Mostrar opções condicional após o segundo item
+        if (item.id === "condicional") {
+          opcoes.style.display = "block";
+        }
+      });
+    });
+
+    // Caminho condicional TV Box
+    simBtn.addEventListener("click", () => {
+      opcoes.style.display = "none";
+      tvbox.forEach(i => i.style.display = "flex");
+      resetBtn.style.display = "block";
+    });
+
+    // Caminho condicional normal
+    naoBtn.addEventListener("click", () => {
+      opcoes.style.display = "none";
+      comuns.forEach(i => i.style.display = "flex");
+      resetBtn.style.display = "block";
+    });
+
+    // Botão reiniciar checklist
+    resetBtn.addEventListener("click", () => {
+      [...comuns, ...tvbox].forEach(i => {
+        i.style.display = "none";
+        i.classList.remove("completed");
+      });
+      itens.forEach(i => i.classList.remove("completed"));
+      opcoes.style.display = "none";
+      resetBtn.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>
